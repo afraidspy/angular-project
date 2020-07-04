@@ -1,3 +1,4 @@
+//Jessica Santizo Galicia
 import { Component, OnInit } from '@angular/core';
 
 const DISH = {
