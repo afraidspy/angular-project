@@ -1,3 +1,12 @@
+/*
+app.module.ts
+@author: Santizo Galicia Jessica
+*/ 
+/*Using template-driven forms*/
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms'; 
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -20,22 +29,23 @@ import { FooterComponent } from './footer/footer.component';
 import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
 import { ContactComponent } from './contact/contact.component';
-
+/*Files with services*/
 import { DishService } from './services/dish.service';
 import { PromotionService } from './services/promotion.service';
 import { LeaderService } from './services/leader.service';
 import { LoginComponent } from './login/login.component';
 
+
 @NgModule({
   declarations: [
+    AboutComponent,
     AppComponent,
+    ContactComponent,
     MenuComponent,
     DishdetailComponent,
     HeaderComponent,
     FooterComponent,
-    AboutComponent,
     HomeComponent,
-    ContactComponent,
     LoginComponent
   ],
   imports: [
@@ -43,8 +53,12 @@ import { LoginComponent } from './login/login.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     MatDialogModule,
+    MatFormFieldModule, 
+    MatInputModule,
+    MatCheckboxModule,
     MatToolbarModule,
     FlexLayoutModule,
+    FormsModule,
     MatListModule,
     MatGridListModule,
     MatCardModule,
