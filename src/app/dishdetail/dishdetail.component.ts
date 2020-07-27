@@ -34,8 +34,15 @@ export class DishdetailComponent implements OnInit {
   
     setPrevNext(dishId: string) {
       const index = this.dishIds.indexOf(dishId);
+      
+      const prevVal = (this.dishIds.length + index - 1) % this.dishIds.length;
+      
       this.prev = this.dishIds[(this.dishIds.length + index - 1) % this.dishIds.length];
       this.next = this.dishIds[(this.dishIds.length + index + 1) % this.dishIds.length];
+      const prevNext = (this.dishIds.length + index + 1) % this.dishIds.length;
+      /*console.log("index: " + index);
+      console.log("prevVal: " + prevVal);
+      console.log("nextVal: " + prevNext);*/
     }
   goBack(): void {
     this.location.back();
