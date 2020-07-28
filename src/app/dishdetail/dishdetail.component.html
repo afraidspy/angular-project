@@ -40,6 +40,27 @@
         <p matLine> {{item.author}} --{{item.date |date:'mediumDate'}}   </p>
      </mat-list-item>
    </mat-list>
+   <p>{{ feedbackFormComment.value | json }} {{ feedbackFormComment.status | json }}</p>
+     <!-- Reactive Form task 03-->
+    <form  novalidate [formGroup]="feedbackFormComment">      
+      <p>
+          <mat-form-field class="full-width">
+          <input matInput formControlName="author" placeholder="Name" type="text" required>
+          <mat-error *ngIf="formErrors.author">{{formErrors.author}}</mat-error>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-slider  formControlName="rating" thumbLabel min="1" max="5" step="1" value="5" tickInterval="1"></mat-slider>
+      </p>
+      <p>
+        <mat-form-field class="full-width">
+          <textarea matInput formControlName="comment" placeholder="Your Comment" rows=12 required></textarea>
+          <mat-error *ngIf="formErrors.comment">{{formErrors.comment}}</mat-error>
+        </mat-form-field>
+      </p>
+      <button type="submit" mat-button class="background-primary text-floral-white">Submit</button>
+    </form>
+
   </div>
 
 </div>

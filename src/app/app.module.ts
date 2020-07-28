@@ -25,6 +25,8 @@ import { AppComponent } from './app.component';
 import { MatDialogModule } from '@angular/material/dialog';
 //Spinner
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+//Matslider
+import { MatSliderModule} from '@angular/material/slider';
 
 import 'hammerjs';
 import { AppRoutingModule } from './app-routing/app-routing.module';
@@ -72,6 +74,7 @@ import { LoginComponent } from './login/login.component';
     MatCardModule,
     MatButtonModule,
     MatProgressSpinnerModule,
+    MatSliderModule,
     ReactiveFormsModule
   ],
   providers: [
