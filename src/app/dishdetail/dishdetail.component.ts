@@ -25,6 +25,7 @@ export class DishdetailComponent implements OnInit {
 
   feedbackFormComment: FormGroup;
   comment: Comment;
+  isValid = false;
   
   formErrors = {
     'author': '',

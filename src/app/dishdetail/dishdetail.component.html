@@ -42,7 +42,7 @@
    </mat-list>
    <p>{{ feedbackFormComment.value | json }} {{ feedbackFormComment.status | json }}</p>
      <!-- Reactive Form task 03-->
-    <form  novalidate [formGroup]="feedbackFormComment">      
+    <form #loginForm="ngForm"  novalidate [formGroup]="feedbackFormComment">      
       <p>
           <mat-form-field class="full-width">
           <input matInput formControlName="author" placeholder="Name" type="text" required>
@@ -58,7 +58,8 @@
           <mat-error *ngIf="formErrors.comment">{{formErrors.comment}}</mat-error>
         </mat-form-field>
       </p>
-      <button type="submit" mat-button class="background-primary text-floral-white">Submit</button>
+
+      <button [disabled]="loginForm.form.invalid"  type="submit" mat-button class="background-primary text-floral-white">Submit</button>
     </form>
 
   </div>

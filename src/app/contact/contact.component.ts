@@ -12,7 +12,7 @@ import { Feedback, ContactType } from '../shared/feedback';
 
 export class ContactComponent implements OnInit {
 
-  @ViewChild('fform') feedbackFormDirective;
+  @ViewChild('form') feedbackFormDirective;
 
   feedbackForm: FormGroup;
   feedback: Feedback;
