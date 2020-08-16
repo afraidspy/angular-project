@@ -39,10 +39,16 @@
         <p matLine> {{item.rating}} Stars  </p>
         <p matLine> {{item.author}} --{{item.date |date:'mediumDate'}}   </p>
      </mat-list-item>
+         <!--Preview-->
+      <mat-list-item *ngIf="feedbackFormComment.valid"> 
+          <p matLine> {{comment.comment}} </p>
+          <p matLine> {{comment.rating}} Stars  </p>
+          <p matLine> --{{comment.author}}</p>
+      </mat-list-item>
    </mat-list>
-   <p>{{ feedbackFormComment.value | json }} {{ feedbackFormComment.status | json }}</p>
+
      <!-- Reactive Form task 03-->
-    <form #loginForm="ngForm"  novalidate [formGroup]="feedbackFormComment">      
+    <form #commentForm="ngForm"  novalidate [formGroup]="feedbackFormComment" (ngSubmit)="onSubmit()">      
       <p>
           <mat-form-field class="full-width">
           <input matInput formControlName="author" placeholder="Name" type="text" required>
@@ -59,7 +65,7 @@
         </mat-form-field>
       </p>
 
-      <button [disabled]="loginForm.form.invalid"  type="submit" mat-button class="background-primary text-floral-white">Submit</button>
+      <button [disabled]="commentForm.form.invalid"  type="submit" mat-button class="background-primary text-floral-white">Submit</button>
     </form>
 
   </div>

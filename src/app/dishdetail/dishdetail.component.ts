@@ -65,9 +65,9 @@ export class DishdetailComponent implements OnInit {
         rating: 5,
         comment: ['', [Validators.required]],
         author: ['', [Validators.required, Validators.minLength(2)] ],
-        date : ''
+        date : new Date().toString()
       });
-
+      console.log(new Date().toISOString());
       this.feedbackFormComment.valueChanges
       .subscribe(data => this.onValueChanged(data));
       this.onValueChanged();
@@ -76,6 +76,7 @@ export class DishdetailComponent implements OnInit {
     public onValueChanged(data?: any){
       if (!this.feedbackFormComment) { return; }
       const form = this.feedbackFormComment;
+      if(form.invalid) { //Status invalid
       for (const field in this.formErrors) {
         if (this.formErrors.hasOwnProperty(field)) {
           this.formErrors[field] = '';
@@ -92,18 +93,26 @@ export class DishdetailComponent implements OnInit {
           }
         }
       }
+    }else{
+      //assigning the values if these are correct and show them
+      this.comment = this.feedbackFormComment.value;
+
     }
+  }
 
     onSubmit() {
+
       this.comment = this.feedbackFormComment.value;
-      console.log(this.feedbackFormComment);
+      this.comment.date = new Date().toISOString();
+      this.dish.comments.push(this.comment);
+      this.feedbackFormDirective.resetForm();
       this.feedbackFormComment.reset({
         rating: 5,
         comment: '',
         author: '',
         date : ''
       });
-      this.feedbackFormDirective.resetForm();
+      
   }
   
   

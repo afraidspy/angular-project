@@ -12,6 +12,14 @@
            <mat-error *ngIf="password.errors?.required">Password is required</mat-error>
         </mat-form-field>
       <mat-checkbox [(ngModel)]="user.remember" name="remember">Remember Me</mat-checkbox>
+      <mat-form-field appearance="fill">
+        <mat-label>Select</mat-label>
+        <mat-select [(ngModel)]="user.sexo" required>
+          <mat-option Value="option">Selecciona una opción</mat-option>
+          <mat-option value="femenino">Femenino</mat-option>
+          <mat-option value="masculino">Masculino</mat-option>
+        </mat-select>
+      </mat-form-field>
     </p>
   </mat-dialog-content>
   <mat-dialog-actions>
