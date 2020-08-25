@@ -2,7 +2,7 @@
 Santizo Galicia Jessica
 
 */
-import { Component, OnInit, Input , ViewChild} from '@angular/core';
+import { Component, OnInit, Input , ViewChild, Inject} from '@angular/core';
 import { Dish } from '../shared/dish';
 import { DishService } from '../services/dish.service';
 import { Params, ActivatedRoute } from '@angular/router';
@@ -50,7 +50,8 @@ export class DishdetailComponent implements OnInit {
   constructor(private dishservice: DishService,
     private route: ActivatedRoute,
     private location: Location,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    @Inject('BaseURL') private BaseURL) {
       this.createForm();
     }
 
@@ -65,12 +66,12 @@ export class DishdetailComponent implements OnInit {
         rating: 5,
         comment: ['', [Validators.required]],
         author: ['', [Validators.required, Validators.minLength(2)] ],
-        date : new Date().toString()
+        date : ''
       });
-      console.log(new Date().toISOString());
+
       this.feedbackFormComment.valueChanges
       .subscribe(data => this.onValueChanged(data));
-      this.onValueChanged();
+      
     }
 
     public onValueChanged(data?: any){

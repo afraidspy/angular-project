@@ -2,6 +2,8 @@
 app.module.ts
 @author: Santizo Galicia Jessica
 */ 
+import { HttpClientModule } from '@angular/common/http';
+import { baseURL } from './shared/baseurl';
 /*Using template-driven forms*/
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -60,6 +62,7 @@ import { LoginComponent } from './login/login.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     MatDialogModule,
     MatFormFieldModule, 
     MatInputModule,
@@ -80,7 +83,8 @@ import { LoginComponent } from './login/login.component';
   providers: [
     DishService,
     LeaderService,
-    PromotionService],
+    PromotionService,
+    {provide: 'BaseURL', useValue: baseURL}],
   entryComponents: [
     LoginComponent
   ],
