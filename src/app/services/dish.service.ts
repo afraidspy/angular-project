@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Dish } from '../shared/dish';
-//Observables
 import { Observable, of } from 'rxjs';
+//Observables
 import { delay } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
@@ -12,9 +12,11 @@ import { baseURL } from '../shared/baseurl';
 })
 export class DishService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    console.log("Base: " + baseURL);
+   }
 
-  getDishes(): Observable<Dish[]> {
+   getDishes(): Observable<Dish[]> {
     return this.http.get<Dish[]>(baseURL + 'dishes');
   }
 
@@ -29,7 +31,6 @@ export class DishService {
   getDishIds(): Observable<number[] | any> {
     return this.getDishes().pipe(map(dishes => dishes.map(dish => dish.id)));
   }
-
   /*constructor() { }
   //Operating with observables
   getDishes(): Observable<Dish[]> {

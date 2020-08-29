@@ -85,7 +85,7 @@ import { LoginComponent } from './login/login.component';
     LeaderService,
     PromotionService,
     {provide: 'BaseURL', useValue: baseURL}],
-  entryComponents: [
+    entryComponents: [
     LoginComponent
   ],
   bootstrap: [AppComponent]
