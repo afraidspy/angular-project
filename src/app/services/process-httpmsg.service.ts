@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+//This helps us to throw in error whenever that arises. 
 import { throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 

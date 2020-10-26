@@ -14,6 +14,7 @@ import { PromotionService } from '../services/promotion.service';
 export class HomeComponent implements OnInit {
 
   dish: Dish;
+  dishErrMess: string;
   promotion: Promotion;
   leader: Leader;
 
@@ -26,8 +27,13 @@ export class HomeComponent implements OnInit {
                }
 
   ngOnInit() {
-    this.dishservice.getFeaturedDish().subscribe(dish => this.dish = dish);
-    this.promotionservice.getFeaturedPromotion().subscribe(promotion => this.promotion = promotion);
+    this.dishservice.getFeaturedDish()
+    .subscribe(dish => this.dish = dish,
+      errmess=>this.dishErrMess=<any>errmess);
+      console.log("eRROR........");
+      console.log(this.dishErrMess);
+    this.promotionservice.getFeaturedPromotion()
+    .subscribe(promotion => this.promotion = promotion);
     this.leaderService.getFeaturedLeader().subscribe(leader => this.leader = leader);
     /*this.dish = this.dishservice.getFeaturedDish();
     this.promotion = this.promotionservice.getFeaturedPromotion();

@@ -26,6 +26,7 @@ export class DishdetailComponent implements OnInit {
   feedbackFormComment: FormGroup;
   comment: Comment;
   isValid = false;
+  errMess: string;
   
   formErrors = {
     'author': '',
@@ -58,7 +59,9 @@ export class DishdetailComponent implements OnInit {
     ngOnInit() {
       this.dishservice.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
       this.route.params.pipe(switchMap((params: Params) => this.dishservice.getDish(params['id'])))
-      .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); });
+      .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); },
+      errmess => this.errMess = <any>errmess
+      );
     }
 
     public createForm(){
@@ -86,8 +89,6 @@ export class DishdetailComponent implements OnInit {
             const messages = this.validationMessages[field];
             for (const key in control.errors) {
               if (control.errors.hasOwnProperty(key)) {
-                console.log("Mensajes...");
-                console.log(messages[key] );
                 this.formErrors[field] += messages[key] + ' ';
               }
             }
@@ -124,8 +125,8 @@ export class DishdetailComponent implements OnInit {
       
       this.prev = this.dishIds[(this.dishIds.length + index - 1) % this.dishIds.length];
       this.next = this.dishIds[(this.dishIds.length + index + 1) % this.dishIds.length];
-      const prevNext = (this.dishIds.length + index + 1) % this.dishIds.length;
-      /*console.log("index: " + index);
+      /*const prevNext = (this.dishIds.length + index + 1) % this.dishIds.length;
+      console.log("index: " + index);
       console.log("prevVal: " + prevVal);
       console.log("nextVal: " + prevNext);*/
     }
