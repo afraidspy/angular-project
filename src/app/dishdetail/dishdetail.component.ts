@@ -1,8 +1,8 @@
 /*
 Santizo Galicia Jessica
-
+Example to add animations in order to improve the user experience 
 */
-import { Component, OnInit, Input , ViewChild, Inject} from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Inject } from '@angular/core';
 import { Dish } from '../shared/dish';
 import { DishService } from '../services/dish.service';
 import { Params, ActivatedRoute } from '@angular/router';
@@ -10,13 +10,24 @@ import { Location } from '@angular/common';
 import { switchMap } from 'rxjs/operators';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Comment} from '../shared/comment';
+import { Comment } from '../shared/comment';
+//import { trigger, state, style, animate, transition } from '@angular/animations';
+import {visibility, flyInOut, expand} from '../animations/app.animations';
 
 
 @Component({
   selector: 'app-dishdetail',
   templateUrl: './dishdetail.component.html',
-  styleUrls: ['./dishdetail.component.scss']
+  styleUrls: ['./dishdetail.component.scss'],
+  host: {
+    '[@flyInOut]':'true',
+    'style': 'display:block;'
+  },
+  animations: [
+    flyInOut(),
+    visibility(),
+    expand()
+  ]
 })
 
 export class DishdetailComponent implements OnInit {
@@ -27,19 +38,21 @@ export class DishdetailComponent implements OnInit {
   comment: Comment;
   isValid = false;
   errMess: string;
-  
+  dishcopy: Dish;
+  visibility = 'shown';
+
   formErrors = {
     'author': '',
     'comment': ''
   };
   validationMessages = {
     'author': {
-      'required':      'Author Name is required.',
-      'minlength':     'Author Name must be at least 2 characters long.',
-      'maxlength':     'Author Name cannot be more than 25 characters long.'
+      'required': 'Author Name is required.',
+      'minlength': 'Author Name must be at least 2 characters long.',
+      'maxlength': 'Author Name cannot be more than 25 characters long.'
     },
     'comment': {
-      'required':      'Comment is required.'
+      'required': 'Comment is required.'
     }
   }
 
@@ -53,34 +66,41 @@ export class DishdetailComponent implements OnInit {
     private location: Location,
     private fb: FormBuilder,
     @Inject('BaseURL') private BaseURL) {
-      this.createForm();
-    }
+    this.createForm();
+  }
 
-    ngOnInit() {
-      this.dishservice.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
-      this.route.params.pipe(switchMap((params: Params) => this.dishservice.getDish(params['id'])))
-      .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); },
-      errmess => this.errMess = <any>errmess
+  ngOnInit() {
+    this.dishservice.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
+    this.route.params.pipe(switchMap((params: Params) => {
+      this.visibility = 'hidden';
+      return this.dishservice.getDish(params['id']);
+    }))
+      .subscribe(dish => { 
+        this.dish = dish; 
+        this.dishcopy = dish;
+        this.setPrevNext(dish.id); 
+        this.visibility = 'shown'; },
+        errmess => this.errMess = <any>errmess
       );
-    }
+  }
 
-    public createForm(){
-      this.feedbackFormComment = this.fb.group({
-        rating: 5,
-        comment: ['', [Validators.required]],
-        author: ['', [Validators.required, Validators.minLength(2)] ],
-        date : ''
-      });
+  public createForm() {
+    this.feedbackFormComment = this.fb.group({
+      rating: 5,
+      comment: ['', [Validators.required]],
+      author: ['', [Validators.required, Validators.minLength(2)]],
+      date: ''
+    });
 
-      this.feedbackFormComment.valueChanges
+    this.feedbackFormComment.valueChanges
       .subscribe(data => this.onValueChanged(data));
-      
-    }
 
-    public onValueChanged(data?: any){
-      if (!this.feedbackFormComment) { return; }
-      const form = this.feedbackFormComment;
-      if(form.invalid) { //Status invalid
+  }
+
+  public onValueChanged(data?: any) {
+    if (!this.feedbackFormComment) { return; }
+    const form = this.feedbackFormComment;
+    if (form.invalid) { //Status invalid
       for (const field in this.formErrors) {
         if (this.formErrors.hasOwnProperty(field)) {
           this.formErrors[field] = '';
@@ -95,43 +115,53 @@ export class DishdetailComponent implements OnInit {
           }
         }
       }
-    }else{
+    } else {
       //assigning the values if these are correct and show them
       this.comment = this.feedbackFormComment.value;
 
     }
   }
 
-    onSubmit() {
+  onSubmit() {
 
-      this.comment = this.feedbackFormComment.value;
-      this.comment.date = new Date().toISOString();
-      this.dish.comments.push(this.comment);
-      this.feedbackFormDirective.resetForm();
-      this.feedbackFormComment.reset({
-        rating: 5,
-        comment: '',
-        author: '',
-        date : ''
-      });
-      
+    this.comment = this.feedbackFormComment.value;
+    this.comment.date = new Date().toISOString();
+    this.dishcopy.comments.push(this.comment);
+    this.dishservice.putDish(this.dishcopy)
+      .subscribe(dish => {
+        this.dish = dish;
+        this.dishcopy = dish;
+      },
+        errmess => {
+          this.dish = null;
+          this.dishcopy = null;
+          this.errMess = <any>errmess;
+        });
+    this.feedbackFormDirective.resetForm();
+    this.feedbackFormComment.reset({
+      rating: 5,
+      comment: '',
+      author: '',
+      date: ''
+    });
+
   }
-  
-  
-    setPrevNext(dishId: string) {
-      const index = this.dishIds.indexOf(dishId);
-      
-      const prevVal = (this.dishIds.length + index - 1) % this.dishIds.length;
-      
-      this.prev = this.dishIds[(this.dishIds.length + index - 1) % this.dishIds.length];
-      this.next = this.dishIds[(this.dishIds.length + index + 1) % this.dishIds.length];
-      /*const prevNext = (this.dishIds.length + index + 1) % this.dishIds.length;
-      console.log("index: " + index);
-      console.log("prevVal: " + prevVal);
-      console.log("nextVal: " + prevNext);*/
-    }
-    goBack(): void {
-      this.location.back();
-    }
+
+
+  setPrevNext(dishId: string) {
+    const index = this.dishIds.indexOf(dishId);
+
+    const prevVal = (this.dishIds.length + index - 1) % this.dishIds.length;
+
+    this.prev = this.dishIds[(this.dishIds.length + index - 1) % this.dishIds.length];
+    this.next = this.dishIds[(this.dishIds.length + index + 1) % this.dishIds.length];
+    /*const prevNext = (this.dishIds.length + index + 1) % this.dishIds.length;
+    console.log("index: " + index);
+    console.log("prevVal: " + prevVal);
+    console.log("nextVal: " + prevNext);*/
+  }
+  goBack(): void {
+    this.location.back();
+  }
 
 }
