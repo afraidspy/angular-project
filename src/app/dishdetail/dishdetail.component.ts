@@ -128,7 +128,18 @@ export class DishdetailComponent implements OnInit {
 
       this.comment = this.feedbackFormComment.value;
       this.comment.date = new Date().toISOString();
-      this.dish.comments.push(this.comment);
+
+      this.dishcopy.comments.push(this.comment);
+      this.dishservice.putDish(this.dishcopy)
+        .subscribe(dish=>{
+          this.dish = dish;
+          this.dishcopy = this.dishcopy;
+        },
+        errMess=>{this.dish = null;
+        this.dishcopy = null;
+        this.errMess = <any>errMess
+      });
+
       this.feedbackFormDirective.resetForm();
       this.feedbackFormComment.reset({
         rating: 5,
