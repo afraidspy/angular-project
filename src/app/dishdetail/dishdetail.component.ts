@@ -11,12 +11,26 @@ import { switchMap } from 'rxjs/operators';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Comment} from '../shared/comment';
+import {trigger, state, style, animate,transition} from '@angular/animations';
 
 
 @Component({
   selector: 'app-dishdetail',
   templateUrl: './dishdetail.component.html',
-  styleUrls: ['./dishdetail.component.scss']
+  styleUrls: ['./dishdetail.component.scss'],
+  animations: [
+    trigger('visibility', [
+      state('shown', style({
+          transform: 'scale(1.0)',
+          opacity: 1
+      })),
+      state('hidden', style({
+          transform: 'scale(0.5)',
+          opacity: 0
+      })),
+      transition('* => *', animate('0.5s ease-in-out'))
+  ])
+  ]
 })
 
 export class DishdetailComponent implements OnInit {
@@ -26,6 +40,7 @@ export class DishdetailComponent implements OnInit {
   feedbackFormComment: FormGroup;
   comment: Comment;
   isValid = false;
+  errMess: string;
   
   formErrors = {
     'author': '',
@@ -46,6 +61,9 @@ export class DishdetailComponent implements OnInit {
   dishIds: string[];
   prev: string;
   next: string;
+  dishcopy: Dish;
+  visibility: 'shown';
+ 
 
   constructor(private dishservice: DishService,
     private route: ActivatedRoute,
@@ -57,8 +75,13 @@ export class DishdetailComponent implements OnInit {
 
     ngOnInit() {
       this.dishservice.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
-      this.route.params.pipe(switchMap((params: Params) => this.dishservice.getDish(params['id'])))
-      .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); });
+      /*this.route.params
+      .pipe(switchMap((params: Params) => this.dishservice.getDish(params['id']) ))
+      .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); });*/
+      this.route.params
+      .pipe(switchMap((params: Params) => this.dishservice.getDish(params['id'])))
+      .subscribe(dish => { this.dish = dish; this.dishcopy = dish; this.setPrevNext(dish.id); },
+        errmess => this.errMess = <any>errmess );
     }
 
     public createForm(){
