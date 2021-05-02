@@ -2,6 +2,7 @@
 app.module.ts
 @author: Santizo Galicia Jessica
 */ 
+/*Module Http Client*/
 import { HttpClientModule } from '@angular/common/http';
 import { baseURL } from './shared/baseurl';
 /*Using template-driven forms*/
@@ -45,6 +46,8 @@ import { PromotionService } from './services/promotion.service';
 import { LeaderService } from './services/leader.service';
 import { LoginComponent } from './login/login.component';
 import { HighlightDirective } from './directives/highlight.directive';
+
+
 
 
 @NgModule({
