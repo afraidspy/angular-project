@@ -10,21 +10,15 @@ import { Location } from '@angular/common';
 import { switchMap } from 'rxjs/operators';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-<<<<<<< HEAD
 import { Comment } from '../shared/comment';
 //import { trigger, state, style, animate, transition } from '@angular/animations';
 import {visibility, flyInOut, expand} from '../animations/app.animations';
-=======
-import { Comment} from '../shared/comment';
-import {trigger, state, style, animate,transition} from '@angular/animations';
->>>>>>> ee2cac48e8c012b31efd8a4c54055ab7aa24d77a
 
 
 @Component({
   selector: 'app-dishdetail',
   templateUrl: './dishdetail.component.html',
   styleUrls: ['./dishdetail.component.scss'],
-<<<<<<< HEAD
   host: {
     '[@flyInOut]':'true',
     'style': 'display:block;'
@@ -33,20 +27,6 @@ import {trigger, state, style, animate,transition} from '@angular/animations';
     flyInOut(),
     visibility(),
     expand()
-=======
-  animations: [
-    trigger('visibility', [
-      state('shown', style({
-          transform: 'scale(1.0)',
-          opacity: 1
-      })),
-      state('hidden', style({
-          transform: 'scale(0.5)',
-          opacity: 0
-      })),
-      transition('* => *', animate('0.5s ease-in-out'))
-  ])
->>>>>>> ee2cac48e8c012b31efd8a4c54055ab7aa24d77a
   ]
 })
 
@@ -58,13 +38,7 @@ export class DishdetailComponent implements OnInit {
   comment: Comment;
   isValid = false;
   errMess: string;
-<<<<<<< HEAD
-  dishcopy: Dish;
-  visibility = 'shown';
-
-=======
   
->>>>>>> ee2cac48e8c012b31efd8a4c54055ab7aa24d77a
   formErrors = {
     'author': '',
     'comment': ''
@@ -96,22 +70,6 @@ export class DishdetailComponent implements OnInit {
     this.createForm();
   }
 
-<<<<<<< HEAD
-  ngOnInit() {
-    this.dishservice.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
-    this.route.params.pipe(switchMap((params: Params) => {
-      this.visibility = 'hidden';
-      return this.dishservice.getDish(params['id']);
-    }))
-      .subscribe(dish => { 
-        this.dish = dish; 
-        this.dishcopy = dish;
-        this.setPrevNext(dish.id); 
-        this.visibility = 'shown'; },
-        errmess => this.errMess = <any>errmess
-      );
-  }
-=======
     ngOnInit() {
       this.dishservice.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
       /*this.route.params
@@ -122,7 +80,6 @@ export class DishdetailComponent implements OnInit {
       .subscribe(dish => { this.dish = dish; this.dishcopy = dish; this.setPrevNext(dish.id); },
         errmess => this.errMess = <any>errmess );
     }
->>>>>>> ee2cac48e8c012b31efd8a4c54055ab7aa24d77a
 
   public createForm() {
     this.feedbackFormComment = this.fb.group({
@@ -185,8 +142,6 @@ export class DishdetailComponent implements OnInit {
       date: ''
     });
 
-<<<<<<< HEAD
-=======
       this.comment = this.feedbackFormComment.value;
       this.comment.date = new Date().toISOString();
 
@@ -209,7 +164,6 @@ export class DishdetailComponent implements OnInit {
         date : ''
       });
       
->>>>>>> ee2cac48e8c012b31efd8a4c54055ab7aa24d77a
   }
 
 

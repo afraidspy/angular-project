@@ -30,15 +30,8 @@ export class MenuComponent implements OnInit {
   
   ngOnInit() {
     this.dishService.getDishes()
-<<<<<<< HEAD
-    .subscribe((dishes) => this.dishes = dishes,
-      errmess=>this.errMess=<any>errmess
-      );
-      console.log("Mensaje error: " + this.errMess);
-=======
     .subscribe(dishes => this.dishes = dishes,
       errmess => this.errMess = <any>errmess);
->>>>>>> ee2cac48e8c012b31efd8a4c54055ab7aa24d77a
     //this.dishes = this.dishService.getDishes();
     //this.dishService.getDishes().then(dishes => this.dishes = dishes);
   }

@@ -25,32 +25,29 @@ export class HomeComponent implements OnInit {
   dish: Dish;
   dishErrMess: string;
   promotion: Promotion;
+  promotionErrMess: string;
   leader: Leader;
-  dishErrMess:string;
+  leaderErrMess: string;
 
   constructor(private dishservice: DishService,
               private promotionservice: PromotionService,
               private leaderService: LeaderService,
-              @Inject('BaseURL') private baseURL) {
-
-                console.log("BaseURL*** " +baseURL);
-               }
+              @Inject('BaseURL') private baseURL) {}
 
   ngOnInit() {
-<<<<<<< HEAD
     this.dishservice.getFeaturedDish()
     .subscribe(dish => this.dish = dish,
       errmess=>this.dishErrMess=<any>errmess);
-      console.log("eRROR........");
-      console.log(this.dishErrMess);
+      
+
     this.promotionservice.getFeaturedPromotion()
-    .subscribe(promotion => this.promotion = promotion);
-=======
-    this.dishservice.getFeaturedDish().subscribe(dish => this.dish = dish,
-      errmess =>this.dishErrMess=<any>errmess );
-    this.promotionservice.getFeaturedPromotion().subscribe(promotion => this.promotion = promotion);
->>>>>>> ee2cac48e8c012b31efd8a4c54055ab7aa24d77a
-    this.leaderService.getFeaturedLeader().subscribe(leader => this.leader = leader);
+    .subscribe(promotion => this.promotion = promotion,
+      errmess=>this.promotionErrMess=<any>errmess);
+
+    this.leaderService.getFeaturedLeader()
+    .subscribe(leader => this.leader = leader,
+      errmess=>this.leaderErrMess=<any>errmess);
+
     /*this.dish = this.dishservice.getFeaturedDish();
     this.promotion = this.promotionservice.getFeaturedPromotion();
     this.leader =  this.leaderService.getFeaturedLeader();*/
